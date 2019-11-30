@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './List.css';
+import ProgressSpinner from './components/ProgressSpinner';
 const mtg = require('mtgsdk')
 
 function List() {
@@ -22,7 +23,6 @@ function List() {
       .catch((error) => {
         console.log(error);
       });
-
   };
 
   useEffect(() => {
@@ -30,7 +30,7 @@ function List() {
       fetchCards();
       setPage(page + 1);
     };
-  }, [isLoading]);
+  }, [isLoading, page]);
 
   // detect scroll
   useEffect(() => {
@@ -46,22 +46,29 @@ function List() {
       setIsLoading(true);
     }
   };
-
   return (
-    <>
-      {cardsList.map(card =>
-        card.imageUrl && (
-          <div key={`key-${card.name}`} className="cardContainer">
-            <img src={card.imageUrl} alt={card.name}></img>
-            <ul>
-              <li><strong>Name: </strong>{card.name}</li>
-              <li><strong>Artist: </strong>{card.artist}</li>
-              <li><strong>Original Type: </strong>{card.originalType}</li>
-            </ul>
-          </div>
+    <div className="ListPage">
+      <h1>Creature Cards: {`(${cardsList.length})`}</h1>
+      <div className="row">
+        {cardsList.map(card =>
+          card.imageUrl && (
+            <div key={`key-${card.id}`} className="cardContainer">
+              <img src={card.imageUrl} alt={card.name}></img>
+              <ul>
+                <li><strong>Name: </strong>{card.name}</li>
+                <li><strong>Artist: </strong>{card.artist}</li>
+                <li><strong>Original Type: </strong>{card.originalType}</li>
+              </ul>
+            </div>
+          )
+        )}
+      </div>
+      {
+        isLoading && (
+          <ProgressSpinner />
         )
-      )}
-    </>
+      }
+    </div>
   );
 };
 
