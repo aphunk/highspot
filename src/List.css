@@ -1,0 +1,15 @@
+.cardContainer {
+  display: grid;
+  width: 250px;
+}
+
+img {
+  width: 250px;
+  height: auto;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
