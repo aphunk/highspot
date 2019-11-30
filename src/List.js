@@ -22,6 +22,7 @@ function List() {
       })
       .catch((error) => {
         console.log(error);
+        return <p>Error loading: {error.message}</p>
       });
   };
 
