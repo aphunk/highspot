@@ -11,7 +11,6 @@ const ProgressSpinner = () => {
         color="#00BFFF"
         height={100}
         width={100}
-        timeout={20000}
       />
       <strong>Hang tight, loading some magic</strong>
     </div>
