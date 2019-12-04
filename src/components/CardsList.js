@@ -2,11 +2,24 @@ import React, { useEffect, useState } from 'react';
 import './CardsList.css';
 const mtg = require('mtgsdk')
 
-const CardsList = ({ loading, loadingComplete }) => {
+const CardsList = ({ searchTerm, loading, loadingComplete }) => {
   const [page, setPage] = useState(0);
   const [allCards, setAllCards] = useState([]);
   const [fetchedCards, setFetchedCards] = useState([]);
+  const [visibleCards, setVisibleCards] = useState(allCards);
   const [totalCards, setTotalCards] = useState(0);
+
+
+  useEffect(() => {
+    console.log(searchTerm)
+    if (searchTerm) {
+      const regex = new RegExp(`${searchTerm}`.toUpperCase());
+      const filteredList = allCards.filter((card) => {
+        return regex.test(`${card.name}`.toUpperCase());
+      });
+      setVisibleCards(filteredList);
+    } else { setVisibleCards(allCards) }
+  }, [allCards, searchTerm])
 
   useEffect(() => {
     const pageSize = 20;
@@ -43,24 +56,22 @@ const CardsList = ({ loading, loadingComplete }) => {
 
 
   return (
-
     <div className="CardsList">
-      <h1>Creature Cards: {`(${allCards.length})`}</h1>
+      <h1>Creature Cards: {`(${visibleCards.length})`}</h1>
       <div className="row">
-        {allCards.map(card =>
-          card.imageUrl && (
-            <div key={`key-${card.id}`} className="cardContainer">
-              <img src={card.imageUrl} alt={card.name}></img>
-              <ul>
-                <li><strong>Name: </strong>{card.name}</li>
-                <li><strong>Artist: </strong>{card.artist}</li>
-                <li><strong>Original Type: </strong>{card.originalType}</li>
-              </ul>
-            </div>
-          )
+        {visibleCards.map(card =>
+
+          <div key={`key-${card.id}`} className="cardContainer">
+            <img src={card.imageUrl} alt={card.name}></img>
+            <ul>
+              <li><strong>Name: </strong>{card.name}</li>
+              <li><strong>Artist: </strong>{card.artist}</li>
+              <li><strong>Original Type: </strong>{card.originalType}</li>
+            </ul>
+          </div>
+
         )}
       </div>
-
     </div>
   );
 };

@@ -1,6 +1,7 @@
 .cardContainer {
   display: grid;
-  width: 300px;
+  grid-template-rows: 2fr 1fr;
+  width: 250px;
 }
 
 .ProgressLoader {
