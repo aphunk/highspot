@@ -8,9 +8,9 @@ import { get, keys, sortBy } from 'lodash/fp';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState();
+  const [searchTerm, setSearchTerm] = useState('');
   const [selectedOption, setSelectedOption] = useState(null);
-  const [sortOptions, setSortOptions] = useState(null);
+  const [errorState, setErrorState] = useState(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,8 +43,8 @@ const App = () => {
     setSelectedOption(e.value);
   }
 
-  const getOptions = () => {
-    setSortOptions(cardSortOptions)
+  const getErrorState = (error) => {
+    setErrorState(error)
   };
 
   return (
@@ -58,7 +58,7 @@ const App = () => {
         />
         <input
           className="SearchBar"
-          placeholder="Search cards..."
+          placeholder="Search cards by name"
           onChange={(e) => setSearchTerm(e.target.value)}
           value={searchTerm}
         />
@@ -67,10 +67,10 @@ const App = () => {
           loadingComplete={cardsAreDoneFetch}
           searchTerm={searchTerm}
           sortCardsBy={selectedOption}
-          cardAttributes={getOptions}
+          isError={getErrorState}
         />
         {
-          isLoading && (
+          isLoading && searchTerm === '' && (
             <ProgressSpinner />
           )
         }
