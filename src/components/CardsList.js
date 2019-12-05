@@ -1,14 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import './CardsList.css';
-const mtg = require('mtgsdk')
 
-const CardsList = ({ searchTerm, loading, loadingComplete }) => {
+import {
+  keys as _keys,
+  sortBy as _sortBy,
+} from 'lodash/fp';
+
+const mtg = require('mtgsdk');
+
+const CardsList = ({ loading, loadingComplete, searchTerm, sortCardsBy }) => {
   const [page, setPage] = useState(0);
   const [allCards, setAllCards] = useState([]);
   const [fetchedCards, setFetchedCards] = useState([]);
   const [visibleCards, setVisibleCards] = useState(allCards);
   const [totalCards, setTotalCards] = useState(0);
+  // const [cardSortOptions, setCardSortOptions] = useState(null);
 
+
+  // useEffect(() => {
+  //   setCardSortOptions(_keys(visibleCards[0]))
+  // }, [visibleCards]);
+
+  useEffect(() => {
+    console.log(sortCardsBy)
+    if (sortCardsBy) {
+      const sortedList = _sortBy(visibleCards, sortCardsBy);
+      console.log(visibleCards)
+      console.log(sortedList)
+      return;
+      // setVisibleCards(sortedList);
+
+    }
+  }, [sortCardsBy, visibleCards])
 
   useEffect(() => {
     console.log(searchTerm)
@@ -18,7 +41,9 @@ const CardsList = ({ searchTerm, loading, loadingComplete }) => {
         return regex.test(`${card.name}`.toUpperCase());
       });
       setVisibleCards(filteredList);
-    } else { setVisibleCards(allCards) }
+    } else {
+      setVisibleCards(allCards);
+    }
   }, [allCards, searchTerm])
 
   useEffect(() => {
