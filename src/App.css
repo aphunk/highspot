@@ -29,3 +29,6 @@
   align-content: flex-start;
 }
 
+.ProgressLoader {
+  display: block;
+}

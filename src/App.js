@@ -4,7 +4,7 @@ import ProgressSpinner from './components/ProgressSpinner';
 import Select from 'react-select';
 import './App.css';
 
-import { get, keys, sortBy } from 'lodash/fp';
+import { capitalize as _capitalize } from 'lodash/fp';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -34,17 +34,19 @@ const App = () => {
     { value: 'set', label: 'Set' }
   ];
 
+  const selectPlaceholder =
+    selectedOption ? `Sorted by ${_capitalize(selectedOption)}` : "Sort cards"
+
   const cardsAreDoneFetch = () => {
     setIsLoading(false);
   }
 
   const handleSortSelection = (e) => {
-    console.log(`Option selected:`, e.value)
     setSelectedOption(e.value);
   }
 
-  const getErrorState = (error) => {
-    setErrorState(error)
+  const getErrorState = () => {
+    setErrorState(true)
   };
 
   return (
@@ -53,7 +55,7 @@ const App = () => {
         <Select
           onChange={handleSortSelection}
           options={cardSortOptions}
-          placeholder="Sort cards"
+          placeholder={selectPlaceholder}
           value={selectedOption}
         />
         <input
@@ -67,10 +69,10 @@ const App = () => {
           loadingComplete={cardsAreDoneFetch}
           searchTerm={searchTerm}
           sortCardsBy={selectedOption}
-          isError={getErrorState}
+          error={getErrorState}
         />
         {
-          isLoading && searchTerm === '' && (
+          isLoading && searchTerm === '' && !errorState && (
             <ProgressSpinner />
           )
         }

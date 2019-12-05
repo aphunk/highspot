@@ -3,18 +3,16 @@ import './CardsList.css';
 import {
   orderBy as _orderBy,
 } from 'lodash/fp';
-
 const mtg = require('mtgsdk');
 
 
-const CardsList = ({ loading, loadingComplete, searchTerm, sortCardsBy }) => {
+const CardsList = ({ error, loading, loadingComplete, searchTerm, sortCardsBy }) => {
   const [page, setPage] = useState(0);
   const [allCards, setAllCards] = useState([]);
   const [emptyState, setEmptyState] = useState(null);
   const [fetchedCards, setFetchedCards] = useState([]);
   const [visibleCards, setVisibleCards] = useState(allCards);
   const [totalCards, setTotalCards] = useState(0);
-
 
   // Sort cards based on the 'sortCardsBy' term,
   // return and display a sorted list
@@ -30,13 +28,13 @@ const CardsList = ({ loading, loadingComplete, searchTerm, sortCardsBy }) => {
   // TODO: Add search support for more card attributes,
   // add term match highlighting 
   useEffect(() => {
-    console.log(searchTerm)
     if (searchTerm) {
       const regex = new RegExp(`${searchTerm}`.toUpperCase());
       const filteredList = allCards.filter((card) => {
         return regex.test(`${card.name}`.toUpperCase());
       });
       if (filteredList.length === 0) {
+        error();
         setEmptyState("No cards matched your search.")
       }
       setVisibleCards(filteredList);
@@ -45,14 +43,17 @@ const CardsList = ({ loading, loadingComplete, searchTerm, sortCardsBy }) => {
       setEmptyState(null);
       setVisibleCards(allCards);
     }
-  }, [allCards, searchTerm])
-
+  }, [allCards, error, searchTerm])
 
 
   useEffect(() => {
     const pageSize = 20;
     const fetchCards = () => {
       mtg.card.where({
+        // Filtering cards without originalType in order to 
+        // ignore cards without images (contains: 'imageUrl' isn't working)
+        // https://github.com/MagicTheGathering/mtg-api/issues/37
+        contains: 'originalType',
         types: 'creature',
         pageSize: pageSize,
         page: page,
@@ -64,8 +65,8 @@ const CardsList = ({ loading, loadingComplete, searchTerm, sortCardsBy }) => {
           setPage(page + 1);
         })
         .catch((error) => {
-          console.log(error);
-          return <p>Error loading: {error.message}</p>
+          error();
+          return <p>Error loading: {error.message}</p>;
         });
     };
 
@@ -74,6 +75,7 @@ const CardsList = ({ loading, loadingComplete, searchTerm, sortCardsBy }) => {
     };
     fetchCards();
   }, [loading, page, loadingComplete]);
+
 
   useEffect(() => {
     if (totalCards !== allCards.length) {
