@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import './CardsList.css';
 import sortBy from 'lodash/sortBy';
 const mtg = require('mtgsdk');
@@ -102,6 +103,13 @@ const CardsList = ({ error, loading, loadingComplete, searchTerm, sortCardsBy })
       }
     </div>
   );
+}
+
+CardsList.propTypes = {
+  loading: PropTypes.bool,
+  loadingComplete: PropTypes.func,
+  searchTerm: PropTypes.string,
+  sortCardsBy: PropTypes.string,
 };
 
 export default CardsList;

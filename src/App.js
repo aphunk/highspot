@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import CardsList from './components/CardsList';
 import ProgressSpinner from './components/ProgressSpinner';
 import Select from 'react-select';
 import './App.css';
 
-import { capitalize as _capitalize } from 'lodash/fp';
+import capitalize from 'lodash/capitalize';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -36,7 +37,7 @@ const App = () => {
   ];
 
   const selectPlaceholder =
-    selectedOption ? `Sort by: ${_capitalize(selectedOption)}` : "Sort cards"
+    selectedOption ? `Sort by: ${capitalize(selectedOption)}` : "Sort cards"
 
   const cardsAreDoneFetch = () => {
     setIsLoading(false);
@@ -59,7 +60,6 @@ const App = () => {
         <div className="contentContainer">
           <header className="contentHeader">
             <h2>Creatures</h2>
-
             <div className="pageActions">
               <input
                 className="SearchBar"
@@ -92,6 +92,13 @@ const App = () => {
       </div>
     </div>
   );
+}
+
+App.propTypes = {
+  className: PropTypes.string,
+  onChange: PropTypes.func,
+  placeholder: PropTypes.string,
+  value: PropTypes.string,
 }
 
 export default App;
