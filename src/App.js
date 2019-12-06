@@ -36,7 +36,7 @@ const App = () => {
   ];
 
   const selectPlaceholder =
-    selectedOption ? `Sorted by ${_capitalize(selectedOption)}` : "Sort cards"
+    selectedOption ? `Sort by: ${_capitalize(selectedOption)}` : "Sort cards"
 
   const cardsAreDoneFetch = () => {
     setIsLoading(false);

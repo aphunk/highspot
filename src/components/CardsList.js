@@ -17,8 +17,10 @@ const CardsList = ({ error, loading, loadingComplete, searchTerm, sortCardsBy })
   // Sort cards based on the 'sortCardsBy' term,
   // return and display a sorted list
   useEffect(() => {
+    console.log(sortCardsBy)
     if (sortCardsBy) {
-      const sortedList = _orderBy(allCards, o => o.sortCardsBy);
+      const sortedList = _orderBy(allCards, [sortCardsBy]);
+      console.log(sortedList)
       setVisibleCards(sortedList);
     }
   }, [sortCardsBy, allCards])

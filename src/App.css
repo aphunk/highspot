@@ -1,5 +1,5 @@
 * {
-  font-family: 'Anonymous Pro';
+  font-family: 'Open Sans', serif;
   border-radius: 2px;
   color: #272727
 }
@@ -16,11 +16,11 @@ h1 {
 
 h2 {
   font-size: 2em;
+  font-weight: 600;
   margin-bottom: 10px;
 }
 
 h3 {
-  color: gray;
   line-height: 0;
 }
 
