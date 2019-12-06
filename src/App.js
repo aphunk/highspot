@@ -13,6 +13,7 @@ const App = () => {
   const [errorState, setErrorState] = useState(null);
 
   useEffect(() => {
+    // https://upmostly.com/tutorials/build-an-infinite-scroll-component-in-react-using-react-hooks
     const handleScroll = () => {
       if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight || isLoading) {
         return;
@@ -51,31 +52,43 @@ const App = () => {
 
   return (
     <div className="App">
-      <div className="appContainer">
-        <Select
-          onChange={handleSortSelection}
-          options={cardSortOptions}
-          placeholder={selectPlaceholder}
-          value={selectedOption}
-        />
-        <input
-          className="SearchBar"
-          placeholder="Search cards by name"
-          onChange={(e) => setSearchTerm(e.target.value)}
-          value={searchTerm}
-        />
-        <CardsList
-          loading={isLoading}
-          loadingComplete={cardsAreDoneFetch}
-          searchTerm={searchTerm}
-          sortCardsBy={selectedOption}
-          error={getErrorState}
-        />
-        {
-          isLoading && searchTerm === '' && !errorState && (
-            <ProgressSpinner />
-          )
-        }
+      <div className="pageContainer">
+        <header className="pageHeader">
+          <h1>Infinitely Peep Magic: The Gathering</h1>
+        </header>
+        <div className="contentContainer">
+          <header className="contentHeader">
+            <h2>Creatures</h2>
+
+            <div className="pageActions">
+              <input
+                className="SearchBar"
+                placeholder="Search cards by name"
+                onChange={(e) => setSearchTerm(e.target.value)}
+                value={searchTerm}
+              />
+              <Select
+                className="SelectDropdown"
+                onChange={handleSortSelection}
+                options={cardSortOptions}
+                placeholder={selectPlaceholder}
+                value={selectedOption}
+              />
+            </div>
+          </header>
+          <CardsList
+            loading={isLoading}
+            loadingComplete={cardsAreDoneFetch}
+            searchTerm={searchTerm}
+            sortCardsBy={selectedOption}
+            error={getErrorState}
+          />
+          {
+            isLoading && searchTerm === '' && !errorState && (
+              <ProgressSpinner />
+            )
+          }
+        </div>
       </div>
     </div>
   );

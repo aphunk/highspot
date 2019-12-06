@@ -1,6 +1,32 @@
+* {
+  font-family: 'Anonymous Pro';
+  border-radius: 2px;
+  color: #272727
+}
+
+h1, h2, h3 {
+  font-family: 'DM Serif Text', serif;
+}
+
+h1 {
+  font-size: 3.5em;
+  line-height: 1em;
+  margin: 10px 0;
+}
+
+h2 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+h3 {
+  color: gray;
+  line-height: 0;
+}
+
 .App {
   text-align: left;
-  padding: 20px;
+  padding: 20px 40px;
 }
 
 .App-logo {
@@ -31,4 +57,39 @@
 
 .ProgressLoader {
   display: block;
+}
+
+.pageActions {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+}
+
+.pageActions input:first-of-type  {
+  margin-right: 20px;
+}
+
+.SelectDropdown {
+  min-width: 300px;
+}
+
+.SearchBar {
+  border-radius: 4px;
+  padding: 2px 8px;
+  border-style: solid;
+  border: 1px solid hsl(0,0%,80%); 
+  font-size: 16px; 
+  min-height: 30px;
+  min-width: 500px;
+}
+
+.contentContainer {
+  display: grid;
+  grid-template-rows: auto auto auto;
+  grid-gap: 10px;
+  margin-top: 30px;
+}
+
+.contentHeader {
+  margin-bottom: 20px;
 }

@@ -86,7 +86,7 @@ const CardsList = ({ error, loading, loadingComplete, searchTerm, sortCardsBy })
 
   return (
     <div className="CardsList">
-      <h2>Creature Cards: {`(${visibleCards.length})`}</h2>
+      <h3>Showing: {`(${visibleCards.length})`}</h3>
       {
         emptyState
           ? <span className="EmptyMessage">{emptyState}</span>
@@ -95,7 +95,7 @@ const CardsList = ({ error, loading, loadingComplete, searchTerm, sortCardsBy })
               <div key={`key-${card.id}`} className="cardContainer">
                 <img src={card.imageUrl} alt={card.name}></img>
                 <ul>
-                  <li><strong>Name: </strong>{card.name}</li>
+                  <li><h3>{card.name}</h3></li>
                   <li><strong>Artist: </strong>{card.artist}</li>
                   <li><strong>Original Type: </strong>{card.originalType}</li>
                 </ul>
