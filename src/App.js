@@ -37,7 +37,7 @@ const App = () => {
   ];
 
   const selectPlaceholder =
-    selectedOption ? `Sort by: ${capitalize(selectedOption)}` : "Sort cards"
+    selectedOption ? `Sorting by: ${capitalize(selectedOption)}` : "Sort cards"
 
   const cardsAreDoneFetch = () => {
     setIsLoading(false);
@@ -59,7 +59,7 @@ const App = () => {
         </header>
         <div className="contentContainer">
           <header className="contentHeader">
-            <h2>Creatures</h2>
+            <h2>Type: Creatures</h2>
             <div className="pageActions">
               <input
                 className="SearchBar"
@@ -84,7 +84,7 @@ const App = () => {
             error={getErrorState}
           />
           {
-            isLoading && searchTerm === '' && !errorState && (
+            isLoading && !errorState && (
               <ProgressSpinner />
             )
           }

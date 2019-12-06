@@ -10,19 +10,8 @@ const CardsList = ({ error, loading, loadingComplete, searchTerm, sortCardsBy })
   const [allCards, setAllCards] = useState([]);
   const [emptyState, setEmptyState] = useState(null);
   const [fetchedCards, setFetchedCards] = useState([]);
-  const [visibleCards, setVisibleCards] = useState(allCards);
+  const [visibleCards, setVisibleCards] = useState([]);
   const [totalCards, setTotalCards] = useState(0);
-
-  // Sort cards based on the 'sortCardsBy' term,
-  // return and display a sorted list
-
-  // TODO: make this work :(
-  useEffect(() => {
-    if (sortCardsBy) {
-      const sortedList = sortBy(allCards, sortCardsBy);
-      setVisibleCards(sortedList);
-    }
-  }, [sortCardsBy, allCards])
 
 
   // Search cards by name
@@ -80,6 +69,16 @@ const CardsList = ({ error, loading, loadingComplete, searchTerm, sortCardsBy })
       setAllCards([...allCards, ...fetchedCards])
     }
   }, [fetchedCards, allCards, totalCards]);
+  
+
+  // Sort cards based on the 'sortCardsBy' term,
+  // return and display a sorted list
+  useEffect(() => {
+    if (sortCardsBy) {
+      const sortedList = sortBy(allCards, [sortCardsBy]);
+      setVisibleCards(sortedList);
+    }
+  }, [sortCardsBy, allCards])
 
 
   return (
@@ -95,6 +94,7 @@ const CardsList = ({ error, loading, loadingComplete, searchTerm, sortCardsBy })
                 <ul>
                   <li><h3>{card.name}</h3></li>
                   <li><strong>Artist: </strong>{card.artist}</li>
+                  <li><strong>Set: </strong>{card.setName}</li>
                   <li><strong>Original Type: </strong>{card.originalType}</li>
                 </ul>
               </div>
