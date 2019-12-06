@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './CardsList.css';
-import {
-  orderBy as _orderBy,
-} from 'lodash/fp';
+import sortBy from 'lodash/sortBy';
 const mtg = require('mtgsdk');
 
 
@@ -16,11 +14,11 @@ const CardsList = ({ error, loading, loadingComplete, searchTerm, sortCardsBy })
 
   // Sort cards based on the 'sortCardsBy' term,
   // return and display a sorted list
+
+  // TODO: make this work :(
   useEffect(() => {
-    console.log(sortCardsBy)
     if (sortCardsBy) {
-      const sortedList = _orderBy(allCards, [sortCardsBy]);
-      console.log(sortedList)
+      const sortedList = sortBy(allCards, sortCardsBy);
       setVisibleCards(sortedList);
     }
   }, [sortCardsBy, allCards])
@@ -52,9 +50,6 @@ const CardsList = ({ error, loading, loadingComplete, searchTerm, sortCardsBy })
     const pageSize = 20;
     const fetchCards = () => {
       mtg.card.where({
-        // Filtering cards without originalType in order to 
-        // ignore cards without images (contains: 'imageUrl' isn't working)
-        // https://github.com/MagicTheGathering/mtg-api/issues/37
         contains: 'originalType',
         types: 'creature',
         pageSize: pageSize,
